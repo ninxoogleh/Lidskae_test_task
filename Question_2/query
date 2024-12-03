@@ -1,0 +1,19 @@
+WITH Cities AS (
+    SELECT 
+        City,
+        Population
+    FROM 
+        Cities_Ranking
+)
+
+SELECT 
+    Attribute,
+    Value
+FROM 
+    Cities
+UNPIVOT (
+    Value FOR Attribute IN (City, Population)
+) AS Unpvt
+ORDER BY 
+    CASE WHEN Attribute = 'Population' THEN 1 ELSE 0 END, 
+    Value DESC;

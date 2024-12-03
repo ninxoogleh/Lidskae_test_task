@@ -1,0 +1,15 @@
+ALTER TABLE Cities_Ranking
+ADD Running_Total INT;
+
+WITH CTE AS (
+    SELECT 
+        City,
+        Population,
+        SUM(Population) OVER (ORDER BY Population DESC) AS RunningTotal
+    FROM 
+        Cities_Ranking
+)
+UPDATE C
+SET Running_Total = CTE.RunningTotal
+FROM Cities_Ranking C
+JOIN CTE ON C.City = CTE.City;
